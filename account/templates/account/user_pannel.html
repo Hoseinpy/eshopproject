@@ -1,0 +1,23 @@
+{% extends 'shared/base.html' %}
+
+{% block title %}
+	پنل کاربری
+{% endblock %}
+
+{% block content %}
+    <div class="col-mid-8">
+        <h1>
+            <a href="{% url 'user-pannel-page' %}">پنل کاربری</a><br>
+        <a href="{% url 'edit-profile-page' %}">ویرایش پروفایل</a><br>
+        <a href="{% url 'change_password-page' %}">تغییر رمز عبور</a><br>
+            <a href="{% url 'list' %}">فروشگاه</a>
+        </h1>
+    </div>
+    <center>
+    {% if current_user.avatar %}
+    	<img src="{{ current_user.avatar.url }}" alt="" width="300">
+    {% endif %}
+    <h1>نام: {{ current_user.username }}</h1>
+    <h1>بیو: {{ current_user.bio }}</h1>
+    </center>
+{% endblock %}

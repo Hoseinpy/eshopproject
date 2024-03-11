@@ -1,0 +1,17 @@
+{% extends 'shared/base.html' %}
+
+{% block title %}
+	about
+{% endblock %}
+
+{% block content %}
+    <form method="post" enctype="multipart/form-data" action="{% url 'about-page' %}">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">send</button>
+    </form>
+    {% for foo in image %}
+        <img src="{{ foo.profile.url }}" alt="" width="250">
+    {% endfor %}
+    
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'shared/base.html' %}
+{% load thumbnail %}
+{% load poll_extras %}
+
+{% block title %}
+	{{ product.title }}
+{% endblock %}
+
+{% block content %}
+    <h1 style="color: black"><a href="{% url 'list' %}">HOME</a></h1>
+    {% for b in banner %}
+        <a href="{{ b.url }}" target="_blank"><img src="{{ b.image.url }}" alt=""></a>
+    {% endfor %}
+    <hr>
+    <br>
+    <br>
+    {% if deatils.image %}
+        {% thumbnail deatils.image "500x368" corp="center" as im %}
+            <img src="{{ im.url }}" alt="">
+        {% endthumbnail %}
+    {% endif %}
+    <p>زمان: {{ deatils.get_jalali_created_time }}</p>
+    <p>تاریخ: {{ deatils.get_jalali_created_date }}</p>
+    <h1>{{ deatils.title }}</h1><br>
+    <h2>قیمت: {{ deatils.price | threy_digits_currency }}تومان</h2><br>
+    <h2>توضیحات: {{ deatils.description }}</h2>
+    <hr>
+    <form action="{% url 'deatls' pk=deatils.pk %}" method="post">
+    {% csrf_token %}
+    <h1>{{ commentform }}</h1>
+    <input type="submit">
+    </form>
+
+    <h1>کامنت ({{ comment_count }})</h1>
+    <hr>
+    {% for show_comment in user_comment %}
+        <p>همه کامنت ها:</p>
+        {% if show_comment.comment %}
+        	<h2>{{ show_comment.get_jalali_created_time }}:{{ show_comment | title }}</h2>
+            {% else %}
+            <h2>برای این محصول کامنتی درج نشده</h2>
+        {% endif %}
+
+        <hr>
+    {% endfor %}
+
+
+{% endblock %}

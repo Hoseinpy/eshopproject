@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #342d7c;
+      }
+
+      .container {
+        width: 400px;
+        margin: 0 auto;
+        margin-top: 200px;
+        padding: 20px;
+        margin-right: 550px;
+        background-color: #fff;
+        border-radius: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        transition: border-color 0.3s;
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: #87ceeb;
+      }
+
+      .form-group button {
+        width: 100%;
+        padding: 10px;
+        background-color: #87ceeb;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .form-group button:hover {
+        background-color: #1bff01;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>ثبت اگهی</h2>
+      <form action="{% url 'create-page' %}" method="post" enctype="multipart/form-data">
+{#          {% csrf_token %}#}
+            <div class="form-group">
+                <p style="color: #721c24">برای انتخاب بیش از یک عنوان، کلید "Control" را نگه دارید.</p>
+              {{ form }}
+            </div>
+        <div class="form-group">
+          <button type="submit">ثبت</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</form>
+</html>

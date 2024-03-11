@@ -1,0 +1,115 @@
+{% extends 'shared/base.html' %}
+{% load thumbnail %}
+{% load poll_extras %}
+
+{% block title %}
+	product list
+{% endblock %}
+
+{% block content %}
+    <div class="form-group">
+        <h1><a href="/">صفحه اصلی</a></h1>
+        {% for b in banner %}
+            <a href="{{ b.url }}" target="_blank"><img src="{{ b.image.url }}" alt=""></a>
+        {% endfor %}
+
+        <h2>
+            {% if request.user.is_authenticated %}
+            {% if user.is_superuser %}
+                <li><span><a href="/admin/" style="color: blueviolet; font-weight: bold" target="_blank">پنل ادمین</a></span>
+                    <br>
+                <li><span><a href="{% url 'logout-page' %}" style="color: red; font-weight: bold">خروج از اکانت</a></span></li>
+            {% else %}
+                <li><span><a href="{% url 'logout-page' %}" style="color: red; font-weight: bold">خروج از اکانت</a></span></li>
+                <li><span><a href="{% url 'user-pannel-page' %}" style="color: #342d7c; font-weight: bold">پنل کاربری</a></span></li>
+            {% endif %}
+        {% else %}
+            <li><span><a href="{% url 'login-page' %} " style="color: green; font-weight: bold">ورود</a></span></li>
+            <li><span><a href="{% url 'singup-page' %}" style="color: teal; font-weight: bold">ثبت نام</a></span>
+        {% endif %}
+        </h2>
+    </div>
+    <h2>تعداد محصولات سایت :{{ num_of_product }}</h2>
+    <h2><a href="{% url 'create-page' %}">ثبت اگهی</a></h2>
+    <form action="{% url 'list' %}" method="get">
+        {{ filter_form }}
+        <button type="submit">اعمال فیلتر</button>
+    {% if filter_form.category.value %}
+        <button type="submit"><a href="/" class="btn btn-primary">نمایش همه محصولات</a></button>
+    {% endif %}
+    <div class="btn-primary"><h2><a href="#favorite">بخش محصولات ویژه سایت</a></h2></div>
+    <div class="btn-primary"><h2><a href="#most_visit">بخش محصولات پر بازدید سایت</a></h2></div>
+    </form>
+    <hr>
+    <center><h1 style="color: #d37a00">محصولات جدید</h1></center>
+        <div>
+        {% for item in products_nw %}
+            {% if item.image %}
+                <h2>{{ item.title }}</h2>
+                <p>زمان: {{ item.get_jalali_created_time }}</p>
+                <p>تاریخ: {{ item.created_at | show_date_jalali }}</p>
+                {% thumbnail item.image "300x268" corp="center" as im %}
+                    <a href="{{ item.get_absolute_url }}"><img src="{{ im.url }}" alt="{{ item.title }}"></a>
+                {% endthumbnail %}
+                <br>
+                <h1><a href="{{ item.get_absolute_url }}">جزییات...</a></h1>
+                <hr>
+            {% else %}
+                این محصول تصویری ندارد
+                <h2>{{ item.title }}</h2>
+                <p>زمان: {{ item.get_jalali_created_time }}</p>
+                <p>تاریخ: {{ item.created_at | show_date_jalali }}</p>
+                <br>
+                <h1><a href="{{ item.get_absolute_url }}">جزئیات محصول</a></h1>
+                <hr>
+            {% endif %}
+	{% endfor %}
+
+    <center><h1 style="color: #a2233f" id="favorite">محصولات ویژه</h1></center>
+    {% for item in products_fv %}
+            {% if item.image %}
+                <h2>{{ item.title }}</h2>
+                <p>زمان: {{ item.get_jalali_created_time }}</p>
+                <p>تاریخ: {{ item.created_at | show_date_jalali }}</p>
+                {% thumbnail item.image "300x268" corp="center" as im %}
+                    <a href="{{ item.get_absolute_url }}"><img src="{{ im.url }}" alt="{{ item.title }}"></a>
+                {% endthumbnail %}
+                <br>
+                <h1><a href="{{ item.get_absolute_url }}">جزییات...</a></h1>
+                <hr>
+            {% else %}
+                این محصول تصویری ندارد
+                <h2>{{ item.title }}</h2>
+                <p>زمان: {{ item.get_jalali_created_time }}</p>
+                <p>تاریخ: {{ item.created_at | show_date_jalali }}</p>
+                <br>
+                <h1><a href="{{ item.get_absolute_url }}">جزییات...</a></h1>
+                <hr>
+            {% endif %}
+	{% endfor %}
+
+        <center><h1 style="color: #d37a00" id="most_visit">محصولات پر بازدید</h1></center>
+        <div>
+        {% for item in most_visit_product %}
+            {% if item.image %}
+                <h2>{{ item.title }}</h2>
+                <p>زمان: {{ item.get_jalali_created_time }}</p>
+                <p>تاریخ: {{ item.created_at | show_date_jalali }}</p>
+                {% thumbnail item.image "300x268" corp="center" as im %}
+                    <a href="{{ item.get_absolute_url }}"><img src="{{ im.url }}" alt="{{ item.title }}"></a>
+                {% endthumbnail %}
+                <br>
+                <h1><a href="{{ item.get_absolute_url }}">جزییات...</a></h1>
+                <hr>
+            {% else %}
+                این محصول تصویری ندارد
+                <h2>{{ item.title }}</h2>
+                <p>زمان: {{ item.get_jalali_created_time }}</p>
+                <p>تاریخ: {{ item.created_at | show_date_jalali }}</p>
+                <br>
+                <h1><a href="{{ item.get_absolute_url }}">جزئیات محصول</a></h1>
+                <hr>
+            {% endif %}
+	{% endfor %}
+    </div>
+{% endblock %}
